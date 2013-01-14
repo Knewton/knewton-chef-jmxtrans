@@ -53,24 +53,24 @@ end
 # install dirs & jars #
 #######################
 
-[ node[:jmxtrans][:etc], node[:jmxtrans][:lib] ].each do |dir|
+[ node["jmxtrans"]["etc"], node["jmxtrans"]["lib"] ].each do |dir|
   directory dir
 end
 
-directory node[:jmxtrans][:log] do
+directory node["jmxtrans"]["log"] do
   group 'jmxtrans'
   owner 'jmxtrans'
 end
 
-node[:jmxtrans][:jar_name] =
-  "jmxtrans-#{node[:jmxtrans][:version]}-standalone.jar"
-node[:jmxtrans][:jar_path] =
-  "#{node[:jmxtrans][:lib]}/#{node[:jmxtrans][:jar_name]}"
-node[:jmxtrans][:jar_url] =
-  "#{node[:jmxtrans][:url]}/#{node[:jmxtrans][:jar_name]}"
+node["jmxtrans"]["jar_name"] =
+  "jmxtrans-#{node["jmxtrans"]["version"]}-standalone.jar"
+node["jmxtrans"]["jar_path"] =
+  "#{node["jmxtrans"]["lib"]}/#{node["jmxtrans"]["jar_name"]}"
+node["jmxtrans"]["jar_url"] =
+  "#{node["jmxtrans"]["url"]}/#{node["jmxtrans"]["jar_name"]}"
 
-remote_file node[:jmxtrans][:jar_path] do
-  source node[:jmxtrans][:jar_url]
+remote_file node["jmxtrans"]["jar_path"] do
+  source node["jmxtrans"]["jar_url"]
   mode '0644'
 end
 
@@ -86,9 +86,9 @@ end
 
 runit_service 'jmxtrans' do
   options({
-            'jar'       => node[:jmxtrans][:jar_path],
-            'etc'       => node[:jmxtrans][:etc],
-            'log'       => node[:jmxtrans][:log],
-            'log_level' => node[:jmxtrans][:log_level]
+            'jar'       => node["jmxtrans"]["jar_path"],
+            'etc'       => node["jmxtrans"]["etc"],
+            'log'       => node["jmxtrans"]["log"],
+            'log_level' => node["jmxtrans"]["log_level"]
           })
 end
